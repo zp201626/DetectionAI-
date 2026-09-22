@@ -86,7 +86,7 @@ function App() { // 定义前端应用组件。
           <div className="composer-actions"><span>后端接口：/api/chat</span><button type="submit" disabled={loading || !query.trim()}>发送</button></div> {/* 显示接口提示和发送按钮。 */}
         </form> {/* 结束聊天输入表单。 */}
       </main> {/* 结束主聊天区域。 */}
-    </div> {/* 结束应用外层容器。 */}
+    </div>
   ); // 结束页面结构返回。
 } // 结束应用组件。
 
