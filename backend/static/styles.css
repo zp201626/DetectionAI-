@@ -1,5 +1,17 @@
 /* 设置全局颜色和字体变量。 */
 :root { --navy: #102a43; --blue: #186faf; --pale: #f4f7fb; --line: #d9e2ec; --muted: #627d98; }
+/* 设置登录遮罩层。 */
+.login-panel { position: fixed; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #102a43, #243b53); }
+/* 设置登录卡片。 */
+.login-card { width: min(380px, calc(100% - 36px)); padding: 32px; border-radius: 16px; background: white; box-shadow: 0 20px 50px rgba(0,0,0,.25); }
+/* 设置登录标题。 */
+.login-card h1 { margin-top: 0; }
+/* 设置登录输入控件。 */
+.login-card input { width: 100%; margin-top: 12px; padding: 12px; border: 1px solid #bcccdc; border-radius: 8px; }
+/* 设置登录按钮。 */
+.login-card button { width: 100%; margin-top: 16px; padding: 12px; border: 0; border-radius: 8px; color: white; background: var(--blue); }
+/* 设置登录错误信息。 */
+.login-error { min-height: 22px; margin-top: 10px; color: #b91c1c; font-size: 13px; }
 /* 统一所有元素的盒模型。 */
 * { box-sizing: border-box; }
 /* 设置页面基础字体和背景。 */
@@ -16,6 +28,8 @@ button { cursor: pointer; }
 .brand { margin-bottom: 28px; color: white; font-size: 22px; font-weight: 800; }
 /* 设置新建对话按钮样式。 */
 .new-chat { width: 100%; padding: 12px; border: 1px solid #486581; border-radius: 10px; color: white; background: #243b53; }
+/* 设置侧边栏次级按钮。 */
+.secondary-button { margin-top: 10px; }
 /* 设置侧边栏分组标题。 */
 .sidebar-title { margin: 34px 0 10px; color: #9fb3c8; font-size: 12px; letter-spacing: .12em; }
 /* 设置能力项目样式。 */
@@ -68,6 +82,18 @@ button { cursor: pointer; }
 .citation-excerpt { margin: 5px 0 0; color: #486581; font-size: 13px; }
 /* 设置图片解析结果卡片。 */
 .image-result { margin-top: 18px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: white; white-space: pre-wrap; }
+/* 设置知识库管理面板。 */
+.knowledge-panel { margin-top: 18px; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+/* 设置知识库管理标题栏。 */
+.knowledge-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+/* 设置知识库刷新按钮。 */
+.knowledge-header button { padding: 8px 14px; border: 1px solid #bcccdc; border-radius: 8px; background: white; }
+/* 设置单条文件审核卡片。 */
+.file-card { margin-top: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 9px; }
+/* 设置审核操作栏。 */
+.file-actions { display: flex; gap: 8px; margin-top: 10px; }
+/* 设置审核操作按钮。 */
+.file-actions button { padding: 7px 10px; border: 1px solid #bcccdc; border-radius: 7px; background: white; }
 /* 隐藏未使用的图片结果容器。 */
 .hidden { display: none; }
 /* 设置输入区域吸底布局。 */

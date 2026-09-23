@@ -7,10 +7,22 @@
   <link rel="stylesheet" href="/styles.css"> <!-- 加载纯 CSS 页面样式。 -->
 </head> <!-- 结束页面头部。 -->
 <body> <!-- 开始页面主体。 -->
+  <section id="login-panel" class="login-panel"> <!-- 创建登录区域。 -->
+    <form id="login-form" class="login-card"> <!-- 创建账号密码登录表单。 -->
+      <h1>DetectionAI 助手</h1> <!-- 显示登录页面标题。 -->
+      <p>请使用公司内部分配的账号登录。</p> <!-- 显示登录提示。 -->
+      <input id="username" type="text" placeholder="用户名" autocomplete="username" required> <!-- 创建用户名输入框。 -->
+      <input id="password" type="password" placeholder="密码" autocomplete="current-password" required> <!-- 创建密码输入框。 -->
+      <button type="submit">登录</button> <!-- 创建登录按钮。 -->
+      <div id="login-error" class="login-error"></div> <!-- 显示登录错误。 -->
+    </form> <!-- 结束登录表单。 -->
+  </section> <!-- 结束登录区域。 -->
   <div class="app-shell"> <!-- 创建应用整体布局。 -->
     <aside class="sidebar"> <!-- 创建左侧能力栏。 -->
       <div class="brand">🔬 DetectionAI</div> <!-- 显示产品名称。 -->
       <button id="new-chat" class="new-chat">＋ 新建对话</button> <!-- 提供清空当前对话按钮。 -->
+      <button id="knowledge-button" class="new-chat secondary-button">知识库管理</button> <!-- 为管理员提供知识库管理入口。 -->
+      <button id="logout-button" class="new-chat secondary-button">退出登录</button> <!-- 提供退出登录按钮。 -->
       <div class="sidebar-title">知识能力</div> <!-- 显示能力分组标题。 -->
       <div class="capability">全文 RAG 检索</div> <!-- 显示全文检索能力。 -->
       <div class="capability">GraphRAG 关系推理</div> <!-- 显示知识图谱能力。 -->
@@ -39,12 +51,20 @@
       </section> <!-- 结束欢迎区域。 -->
       <section id="messages" class="messages" aria-live="polite"></section> <!-- 创建动态消息区域。 -->
       <section id="image-result" class="image-result hidden"></section> <!-- 创建图片解析结果区域。 -->
+      <section id="knowledge-panel" class="knowledge-panel hidden"> <!-- 创建管理员知识库管理区域。 -->
+        <div class="knowledge-header"><h2>知识库文件审核</h2><button id="refresh-files">刷新</button></div> <!-- 显示审核页面标题和刷新按钮。 -->
+        <p>工程师上传的文件会先进入待审核状态，管理员审核通过后才能入库。</p> <!-- 说明审核和入库的区别。 -->
+        <div id="file-list"></div> <!-- 显示文件审核列表。 -->
+      </section> <!-- 结束管理员知识库管理区域。 -->
       <form id="composer" class="composer"> <!-- 创建聊天输入表单。 -->
         <textarea id="query" rows="3" placeholder="例如：分析 LOT-240921-A01 的 edge ring 缺陷"></textarea> <!-- 创建问题输入框。 -->
         <div class="composer-footer"> <!-- 创建输入区底部操作栏。 -->
           <label class="upload-label" for="image-file">上传结构图</label> <!-- 提供图片选择入口。 -->
           <input id="image-file" type="file" accept="image/png,image/jpeg,image/jpg"> <!-- 限制可上传的结构图格式。 -->
           <span id="file-name">未选择图片</span> <!-- 显示当前图片文件名。 -->
+          <label class="upload-label" for="document-file">上传知识文件</label> <!-- 提供知识文件选择入口。 -->
+          <input id="document-file" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.md,.png,.jpg,.jpeg"> <!-- 限制知识文件格式。 -->
+          <span id="document-name">未选择文件</span> <!-- 显示当前知识文件名。 -->
           <button id="send" type="submit">发送</button> <!-- 提供问题发送按钮。 -->
         </div> <!-- 结束输入区底部操作栏。 -->
       </form> <!-- 结束聊天输入表单。 -->

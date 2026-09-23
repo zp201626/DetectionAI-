@@ -151,6 +151,10 @@ python -m venv .venv
 
 浏览器访问 `http://127.0.0.1:8000`，后端健康检查地址为 `http://127.0.0.1:8000/api/health`。不再需要启动第二个前端窗口。
 
+首次登录使用开发版默认管理员账号：`admin1` 或 `admin2`，默认密码为 `change-me-before-team-use`。团队使用前必须通过环境变量 `DETECTION_INITIAL_PASSWORD` 修改初始化密码，并为两个管理员设置公司认可的密码管理方式。当前账号、会话和文件审核状态保存在 `data/detection_assistant.db`，该文件不会提交到 GitHub。
+
+工程师可以在页面底部上传知识文件，文件会进入 `pending` 待审核状态。管理员点击左侧“知识库管理”，审核通过后再点击“文件入库”。当前“文件入库”只完成状态记录，正式版还需要接入 PDF/Office 解析、Embedding 和向量数据库任务。
+
 ## 公司网关配置
 
 公司环境接入时，先复制 `backend/.env.example` 为项目根目录的 `.env`，再在 VS Code 中填写公司网关地址、API Key 和模型名称。公司网关适配集中在 `backend/gateway.py`，业务调用集中在 `backend/service.py`。API Key 只能放在本地 `.env`，不可提交到 GitHub。网关协议当前按 OpenAI 兼容的 `/chat/completions` 和 `/embeddings` 设计；如果公司网关路径或鉴权字段不同，只需要修改适配器。

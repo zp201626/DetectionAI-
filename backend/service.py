@@ -11,6 +11,7 @@ from agent.knowledge import KnowledgeBase  # 复用已有轻量知识检索能�
 from agent.workflow import DetectionAssistant  # 复用已有 Detection 分析工作流。
 
 from .config import FAST_MODEL_NAME, KNOWLEDGE_DIR, LONG_CONTEXT_MODEL_NAME, UPLOAD_DIR, ensure_runtime_directories  # 导入项目路径配置。
+from .database import Database  # 导入本地数据库访问类。
 from .gateway import CompanyGatewayClient  # 导入公司网关适配器。
 from .schemas import Citation  # 导入引用响应模型。
 
@@ -18,11 +19,15 @@ from .schemas import Citation  # 导入引用响应模型。
 class DetectionService:  # 定义 Detection 业务服务。
     """封装问答、引用整理和图片解析能力。"""  # 说明服务职责。
 
+    ALLOWED_UPLOAD_SUFFIXES = {".pdf", ".doc", ".docx", ".ppt", ".pptx", ".xls", ".xlsx", ".txt", ".md", ".png", ".jpg", ".jpeg"}  # 定义允许进入审核队列的文件格式。
+    MAX_UPLOAD_BYTES = 50 * 1024 * 1024  # 设置单个上传文件最大为 50 MB。
+
     def __init__(self) -> None:  # 初始化 Detection 服务。
         ensure_runtime_directories()  # 确保运行目录已经创建。
         self.assistant = DetectionAssistant(str(KNOWLEDGE_DIR))  # 创建本地 Detection 分析助手。
         self.knowledge = KnowledgeBase(KNOWLEDGE_DIR)  # 创建本地知识库检索器。
         self.gateway = CompanyGatewayClient()  # 创建公司网关客户端。
+        self.database = Database()  # 创建用户和文件审核数据库。
 
     @staticmethod
     def _citation_from_evidence(evidence: dict[str, Any]) -> list[Citation]:  # 将工作流证据转换为引用列表。
@@ -54,12 +59,17 @@ class DetectionService:  # 定义 Detection 业务服务。
                 answer = f"{answer}\n\n> 公司网关调用失败，以上为本地规则引擎结果。"  # 在回答中声明网关失败状态。
         return {"answer": answer, "session_id": session_id or str(uuid.uuid4()), "intent": result.get("intent", "unknown"), "citations": self._citation_from_evidence(evidence), "evidence": evidence}  # 返回统一接口结果。
 
-    async def save_upload(self, filename: str, content_type: str, content: bytes) -> dict[str, Any]:  # 保存用户上传文件。
+    async def save_upload(self, filename: str, content_type: str, content: bytes, uploader_id: int) -> dict[str, Any]:  # 保存用户上传文件并创建待审核记录。
         file_id = str(uuid.uuid4())  # 生成上传文件编号。
         safe_name = Path(filename).name  # 去掉用户文件名中的路径部分。
+        if Path(safe_name).suffix.lower() not in self.ALLOWED_UPLOAD_SUFFIXES:  # 检查文件后缀是否在允许列表中。
+            raise ValueError("不支持的文件格式，请上传 PDF、Word、PPT、Excel、TXT、Markdown 或 PNG/JPG 文件")  # 拒绝不支持的文件格式。
+        if len(content) > self.MAX_UPLOAD_BYTES:  # 检查文件大小是否超限。
+            raise ValueError("文件大小不能超过 50 MB")  # 拒绝过大的文件。
         target = UPLOAD_DIR / f"{file_id}_{safe_name}"  # 生成安全的保存路径。
         target.write_bytes(content)  # 将文件内容写入本地上传目录。
-        return {"file_id": file_id, "filename": safe_name, "content_type": content_type, "size": len(content), "message": "文件已接收，文档解析和入库接口已预留"}  # 返回文件接收结果。
+        record = self.database.create_file({"id": file_id, "filename": safe_name, "stored_path": str(target), "content_type": content_type, "size": len(content), "uploader_id": uploader_id})  # 保存待审核文件记录。
+        return {"file_id": file_id, "filename": safe_name, "content_type": content_type, "size": len(content), "message": "文件已上传，等待管理员审核", "status": record["status"]}  # 返回审核状态。
 
     async def analyze_image(self, filename: str, content_type: str, content: bytes) -> dict[str, Any]:  # 解析用户上传结构图。
         if not self.gateway.configured:  # 判断是否配置了视觉网关。
