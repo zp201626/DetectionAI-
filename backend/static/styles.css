@@ -1,0 +1,90 @@
+/* 设置全局颜色和字体变量。 */
+:root { --navy: #102a43; --blue: #186faf; --pale: #f4f7fb; --line: #d9e2ec; --muted: #627d98; }
+/* 统一所有元素的盒模型。 */
+* { box-sizing: border-box; }
+/* 设置页面基础字体和背景。 */
+body { margin: 0; min-width: 320px; color: var(--navy); background: var(--pale); font-family: "Microsoft YaHei", "Segoe UI", sans-serif; }
+/* 设置按钮和输入控件继承字体。 */
+button, textarea, input { font: inherit; }
+/* 设置按钮可点击样式。 */
+button { cursor: pointer; }
+/* 创建左右分栏布局。 */
+.app-shell { min-height: 100vh; display: flex; }
+/* 设置侧边栏样式。 */
+.sidebar { width: 280px; padding: 28px 22px; color: #d9e2ec; background: var(--navy); }
+/* 设置品牌名称样式。 */
+.brand { margin-bottom: 28px; color: white; font-size: 22px; font-weight: 800; }
+/* 设置新建对话按钮样式。 */
+.new-chat { width: 100%; padding: 12px; border: 1px solid #486581; border-radius: 10px; color: white; background: #243b53; }
+/* 设置侧边栏分组标题。 */
+.sidebar-title { margin: 34px 0 10px; color: #9fb3c8; font-size: 12px; letter-spacing: .12em; }
+/* 设置能力项目样式。 */
+.capability { padding: 11px 0; border-bottom: 1px solid #243b53; font-size: 14px; }
+/* 设置侧边栏说明文字。 */
+.sidebar-note { margin-top: 32px; color: #9fb3c8; font-size: 12px; line-height: 1.7; }
+/* 设置主面板宽度和间距。 */
+.main-panel { width: min(1120px, calc(100% - 280px)); margin: 0 auto; padding: 28px 42px 36px; }
+/* 设置顶部标题区域。 */
+.hero { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 28px 32px; border-radius: 18px; background: linear-gradient(135deg, #d9eaf7, #f0f4f8); }
+/* 设置英文眉标题。 */
+.eyebrow { color: #486581; font-size: 11px; font-weight: 800; letter-spacing: .14em; }
+/* 设置主标题。 */
+.hero h1 { margin: 8px 0 6px; font-size: clamp(28px, 4vw, 44px); }
+/* 设置标题描述。 */
+.hero p { margin: 0; color: #486581; }
+/* 设置服务状态标签。 */
+.status { padding: 8px 12px; border-radius: 999px; color: #0f766e; background: #ccfbf1; font-size: 13px; white-space: nowrap; }
+/* 设置欢迎区域。 */
+.welcome { padding: 76px 12px 42px; text-align: center; }
+/* 设置欢迎标题。 */
+.welcome h2 { margin-bottom: 8px; font-size: 30px; }
+/* 设置欢迎描述。 */
+.welcome p { color: var(--muted); }
+/* 设置快捷问题网格。 */
+.quick-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 760px; margin: 26px auto; }
+/* 设置快捷问题按钮。 */
+.quick { padding: 14px; border: 1px solid #bcccdc; border-radius: 12px; color: #243b53; background: white; text-align: left; }
+/* 设置快捷问题悬停效果。 */
+.quick:hover { border-color: #2680c2; background: #f0f8ff; }
+/* 设置消息列表。 */
+.messages { display: flex; flex-direction: column; gap: 18px; }
+/* 设置单条消息。 */
+.message { max-width: 880px; padding: 18px 20px; border-radius: 16px; line-height: 1.7; white-space: pre-wrap; }
+/* 设置用户消息。 */
+.message.user { align-self: flex-end; color: white; background: var(--blue); }
+/* 设置助手消息。 */
+.message.assistant { align-self: flex-start; border: 1px solid var(--line); background: white; box-shadow: 0 4px 14px rgba(16,42,67,.05); }
+/* 设置消息角色文字。 */
+.message-role { margin-bottom: 6px; font-size: 12px; font-weight: 800; opacity: .72; }
+/* 设置引用区域。 */
+.citations { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+/* 设置引用卡片。 */
+.citation { margin-top: 10px; padding: 10px; border-radius: 8px; background: var(--pale); }
+/* 设置引用标题。 */
+.citation-title { display: block; font-weight: 700; }
+/* 设置引用位置。 */
+.citation-location { color: var(--muted); font-size: 12px; }
+/* 设置引用摘要。 */
+.citation-excerpt { margin: 5px 0 0; color: #486581; font-size: 13px; }
+/* 设置图片解析结果卡片。 */
+.image-result { margin-top: 18px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: white; white-space: pre-wrap; }
+/* 隐藏未使用的图片结果容器。 */
+.hidden { display: none; }
+/* 设置输入区域吸底布局。 */
+.composer { position: sticky; bottom: 0; margin-top: 28px; padding-top: 16px; background: var(--pale); }
+/* 设置输入框。 */
+.composer textarea { width: 100%; resize: vertical; padding: 14px; border: 1px solid #bcccdc; border-radius: 12px; outline: none; background: white; }
+/* 设置输入框聚焦效果。 */
+.composer textarea:focus { border-color: #2680c2; box-shadow: 0 0 0 3px rgba(38,128,194,.14); }
+/* 设置输入栏底部布局。 */
+.composer-footer { display: flex; align-items: center; gap: 12px; margin-top: 10px; color: var(--muted); font-size: 12px; }
+/* 设置上传按钮。 */
+.upload-label { padding: 8px 12px; border: 1px solid #bcccdc; border-radius: 8px; color: #243b53; background: white; cursor: pointer; }
+/* 隐藏原生文件输入框。 */
+#image-file { display: none; }
+/* 将发送按钮推到右侧。 */
+.composer-footer button { margin-left: auto; padding: 10px 24px; border: 0; border-radius: 9px; color: white; background: var(--blue); }
+/* 设置禁用发送按钮。 */
+.composer-footer button:disabled { cursor: not-allowed; opacity: .45; }
+/* 设置移动端布局。 */
+@media (max-width: 760px) { .sidebar { display: none; } .main-panel { width: 100%; padding: 18px; } .status { display: none; } .quick-grid { grid-template-columns: 1fr; } .composer-footer { flex-wrap: wrap; } }

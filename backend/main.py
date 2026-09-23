@@ -2,8 +2,11 @@
 
 from __future__ import annotations  # 启用延迟类型注解。
 
+from pathlib import Path  # 引入跨平台路径对象。
+
 from fastapi import FastAPI, File, UploadFile  # 引入 FastAPI 应用和文件上传类型。
 from fastapi.middleware.cors import CORSMiddleware  # 引入跨域中间件。
+from fastapi.staticfiles import StaticFiles  # 引入 FastAPI 静态文件托管能力。
 
 from .schemas import ChatRequest, ChatResponse, HealthResponse, UploadResponse  # 导入接口模型。
 from .service import DetectionService  # 导入 Detection 业务服务。
@@ -12,6 +15,7 @@ from .service import DetectionService  # 导入 Detection 业务服务。
 app = FastAPI(title="DetectionAI Assistant API", version="0.1.0")  # 创建 FastAPI 应用实例。
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])  # 允许本地前端访问后端接口。
 service = DetectionService()  # 创建全局业务服务实例。
+STATIC_DIR = Path(__file__).resolve().parent / "static"  # 定位纯 Python 前端静态文件目录。
 
 
 @app.get("/api/health", response_model=HealthResponse)  # 注册健康检查接口。
@@ -36,3 +40,6 @@ async def upload_file(file: UploadFile = File(...)) -> UploadResponse:  # 接收
 async def analyze_image(file: UploadFile = File(...)) -> dict:  # 接收并解析结构图图片。
     content = await file.read()  # 读取图片内容。
     return await service.analyze_image(file.filename or "unknown", file.content_type or "image/*", content)  # 调用视觉模型解析图片。
+
+
+app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="frontend")  # 让 FastAPI 在同一端口提供 HTML、CSS 和 JavaScript 页面。

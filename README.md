@@ -1,13 +1,13 @@
 # DetectionAI 助手
 
-这是参考 LangGraph AIOps Agent 改造的晶圆厂 Detection 工程师 AI 助手。当前工程采用 FastAPI 后端和 React + Vite 独立前端，支持本地规则工作流、知识检索、来源引用、文件上传接口和结构图视觉模型网关接口。
+这是参考 LangGraph AIOps Agent 改造的晶圆厂 Detection 工程师 AI 助手。当前工程采用 FastAPI 后端和纯 HTML/CSS/JavaScript 前端，FastAPI 同时提供接口和网页，因此运行环境不需要 Node.js 或 npm。
 
 ## 工程结构
 
 ```text
 backend/             FastAPI 接口、网关适配器和业务服务
 agent/               Detection 工作流、演示数据和知识检索
-frontend/            React + Vite 独立前端
+backend/static/      HTML、CSS 和 JavaScript 页面
 data/knowledge/      本地 SOP、缺陷机理和其他知识文档
 ```
 
@@ -16,20 +16,11 @@ data/knowledge/      本地 SOP、缺陷机理和其他知识文档
 ```powershell
 cd "C:\Users\Maya\Documents\Codex\DetectionAI助手\AI助手"
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r backend\requirements.txt
-uvicorn backend.main:app --reload --port 8000
+.\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
+.\.venv\Scripts\python.exe -m uvicorn backend.main:app --reload --port 8000
 ```
 
-## 启动前端
-
-```powershell
-cd "C:\Users\Maya\Documents\Codex\DetectionAI助手\AI助手\frontend"
-npm install
-npm run dev
-```
-
-浏览器访问 `http://localhost:5173`，后端健康检查地址为 `http://127.0.0.1:8000/api/health`。
+浏览器访问 `http://127.0.0.1:8000`，后端健康检查地址为 `http://127.0.0.1:8000/api/health`。不再需要启动第二个前端窗口。
 
 ## 公司网关配置
 

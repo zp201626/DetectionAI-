@@ -1,0 +1,55 @@
+<!doctype html> <!-- 声明使用 HTML5 文档标准。 -->
+<html lang="zh-CN"> <!-- 设置页面语言为简体中文。 -->
+<head> <!-- 开始页面头部。 -->
+  <meta charset="UTF-8"> <!-- 设置页面字符编码。 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 让页面适配移动端。 -->
+  <title>DetectionAI 助手</title> <!-- 设置浏览器标题。 -->
+  <link rel="stylesheet" href="/styles.css"> <!-- 加载纯 CSS 页面样式。 -->
+</head> <!-- 结束页面头部。 -->
+<body> <!-- 开始页面主体。 -->
+  <div class="app-shell"> <!-- 创建应用整体布局。 -->
+    <aside class="sidebar"> <!-- 创建左侧能力栏。 -->
+      <div class="brand">🔬 DetectionAI</div> <!-- 显示产品名称。 -->
+      <button id="new-chat" class="new-chat">＋ 新建对话</button> <!-- 提供清空当前对话按钮。 -->
+      <div class="sidebar-title">知识能力</div> <!-- 显示能力分组标题。 -->
+      <div class="capability">全文 RAG 检索</div> <!-- 显示全文检索能力。 -->
+      <div class="capability">GraphRAG 关系推理</div> <!-- 显示知识图谱能力。 -->
+      <div class="capability">结构图多模态解析</div> <!-- 显示结构图解析能力。 -->
+      <div class="capability">来源文件和章节溯源</div> <!-- 显示引用溯源能力。 -->
+      <p class="sidebar-note">当前页面由 FastAPI 直接提供，不需要 Node.js 或 npm。</p> <!-- 说明纯 Python 部署方式。 -->
+    </aside> <!-- 结束左侧能力栏。 -->
+    <main class="main-panel"> <!-- 创建主内容区域。 -->
+      <header class="hero"> <!-- 创建页面标题区域。 -->
+        <div> <!-- 创建标题文字容器。 -->
+          <span class="eyebrow">FAB ENGINEERING COPILOT</span> <!-- 显示英文产品分类。 -->
+          <h1>Detection 智能助手</h1> <!-- 显示中文主标题。 -->
+          <p>理论原理、历史 Case、SOP 和结构图一起分析。</p> <!-- 显示产品说明。 -->
+        </div> <!-- 结束标题文字容器。 -->
+        <span id="status" class="status">正在检查服务</span> <!-- 显示后端服务状态。 -->
+      </header> <!-- 结束页面标题区域。 -->
+      <section id="welcome" class="welcome"> <!-- 创建无消息时的欢迎区域。 -->
+        <h2>从一个 Detection 问题开始</h2> <!-- 显示欢迎标题。 -->
+        <p>输入 defect、机台、SPC、光学原理或 SOP 问题。</p> <!-- 显示使用提示。 -->
+        <div class="quick-grid"> <!-- 创建快捷问题按钮区域。 -->
+          <button class="quick" data-query="分析 LOT-240921-A01 的缺陷情况">分析 LOT-240921-A01 的缺陷情况</button> <!-- 提供缺陷分析快捷问题。 -->
+          <button class="quick" data-query="查看 INS-07 的 SPC 趋势">查看 INS-07 的 SPC 趋势</button> <!-- 提供 SPC 快捷问题。 -->
+          <button class="quick" data-query="查询 INS-07 最近报警">查询 INS-07 最近报警</button> <!-- 提供报警快捷问题。 -->
+          <button class="quick" data-query="Bridge 和 edge ring 应该怎么排查？">Bridge 和 edge ring 应该怎么排查？</button> <!-- 提供知识检索快捷问题。 -->
+        </div> <!-- 结束快捷问题按钮区域。 -->
+      </section> <!-- 结束欢迎区域。 -->
+      <section id="messages" class="messages" aria-live="polite"></section> <!-- 创建动态消息区域。 -->
+      <section id="image-result" class="image-result hidden"></section> <!-- 创建图片解析结果区域。 -->
+      <form id="composer" class="composer"> <!-- 创建聊天输入表单。 -->
+        <textarea id="query" rows="3" placeholder="例如：分析 LOT-240921-A01 的 edge ring 缺陷"></textarea> <!-- 创建问题输入框。 -->
+        <div class="composer-footer"> <!-- 创建输入区底部操作栏。 -->
+          <label class="upload-label" for="image-file">上传结构图</label> <!-- 提供图片选择入口。 -->
+          <input id="image-file" type="file" accept="image/png,image/jpeg,image/jpg"> <!-- 限制可上传的结构图格式。 -->
+          <span id="file-name">未选择图片</span> <!-- 显示当前图片文件名。 -->
+          <button id="send" type="submit">发送</button> <!-- 提供问题发送按钮。 -->
+        </div> <!-- 结束输入区底部操作栏。 -->
+      </form> <!-- 结束聊天输入表单。 -->
+    </main> <!-- 结束主内容区域。 -->
+  </div> <!-- 结束应用整体布局。 -->
+  <script src="/app.js"></script> <!-- 加载纯 JavaScript 交互逻辑。 -->
+</body> <!-- 结束页面主体。 -->
+</html> <!-- 结束 HTML 文档。 -->
