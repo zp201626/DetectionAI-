@@ -5,7 +5,6 @@ from __future__ import annotations  # 启用延迟类型注解。
 from fastapi import FastAPI, File, UploadFile  # 引入 FastAPI 应用和文件上传类型。
 from fastapi.middleware.cors import CORSMiddleware  # 引入跨域中间件。
 
-from .config import GATEWAY_BASE_URL  # 导入网关地址配置，用于健康检查。
 from .schemas import ChatRequest, ChatResponse, HealthResponse, UploadResponse  # 导入接口模型。
 from .service import DetectionService  # 导入 Detection 业务服务。
 
@@ -17,7 +16,7 @@ service = DetectionService()  # 创建全局业务服务实例。
 
 @app.get("/api/health", response_model=HealthResponse)  # 注册健康检查接口。
 async def health() -> HealthResponse:  # 返回后端运行状态。
-    return HealthResponse(status="ok", gateway_configured=bool(GATEWAY_BASE_URL), local_fallback_enabled=True)  # 返回服务和网关状态。
+    return HealthResponse(status="ok", gateway_configured=service.gateway.configured, local_fallback_enabled=True)  # 返回服务和网关状态。
 
 
 @app.post("/api/chat", response_model=ChatResponse)  # 注册 Detection 对话接口。

@@ -10,7 +10,7 @@ from typing import Any  # 引入通用 JSON 类型。
 from agent.knowledge import KnowledgeBase  # 复用已有轻量知识检索能力。
 from agent.workflow import DetectionAssistant  # 复用已有 Detection 分析工作流。
 
-from .config import KNOWLEDGE_DIR, UPLOAD_DIR, ensure_runtime_directories  # 导入项目路径配置。
+from .config import FAST_MODEL_NAME, KNOWLEDGE_DIR, LONG_CONTEXT_MODEL_NAME, UPLOAD_DIR, ensure_runtime_directories  # 导入项目路径配置。
 from .gateway import CompanyGatewayClient  # 导入公司网关适配器。
 from .schemas import Citation  # 导入引用响应模型。
 
@@ -48,7 +48,8 @@ class DetectionService:  # 定义 Detection 业务服务。
         if self.gateway.configured:  # 判断公司网关是否已配置。
             prompt = "请基于以下 Detection 证据优化回答，保留专业中文、明确不确定性并禁止编造数据。\n" + str({"query": query, "evidence": evidence, "draft": answer})  # 组合网关提示词和本地证据。
             try:  # 尝试调用公司网关。
-                answer = await self.gateway.chat([{ "role": "user", "content": prompt }])  # 通过公司网关生成最终回答。
+                selected_model = LONG_CONTEXT_MODEL_NAME if len(prompt) > 12000 else FAST_MODEL_NAME if result.get("intent") in {"spc", "alarm", "recipe"} else None  # 按问题复杂度选择长上下文、快速或主推理模型。
+                answer = await self.gateway.chat([{ "role": "user", "content": prompt }], model=selected_model)  # 通过公司网关生成最终回答。
             except Exception:  # 捕获网关异常并保留本地兜底结果。
                 answer = f"{answer}\n\n> 公司网关调用失败，以上为本地规则引擎结果。"  # 在回答中声明网关失败状态。
         return {"answer": answer, "session_id": session_id or str(uuid.uuid4()), "intent": result.get("intent", "unknown"), "citations": self._citation_from_evidence(evidence), "evidence": evidence}  # 返回统一接口结果。

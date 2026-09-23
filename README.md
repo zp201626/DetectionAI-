@@ -33,7 +33,7 @@ npm run dev
 
 ## 公司网关配置
 
-复制 `backend/.env.example` 中的变量到部署环境。公司网关适配集中在 `backend/gateway.py`，业务调用集中在 `backend/service.py`。网关协议当前按 OpenAI 兼容的 `/chat/completions` 设计；如果公司网关路径或鉴权字段不同，只需要修改适配器。
+复制 `backend/.env.example` 中的变量到部署环境。公司网关适配集中在 `backend/gateway.py`，业务调用集中在 `backend/service.py`。当前默认网关地址为 `http://agi-gateway.cxmt.com/token/v1`，主模型为 `glm-5.2`，视觉模型为 `doubao-seed-2.0-pro-cloud`，Embedding 模型为 `qwen3-Embedding`。API Key 只能放在本地 `.env`，不可提交到 GitHub。网关协议当前按 OpenAI 兼容的 `/chat/completions` 和 `/embeddings` 设计；如果公司网关路径或鉴权字段不同，只需要修改适配器。
 
 不配置网关时，系统仍可以用本地 Detection 工作流和本地知识库运行演示。示例编号：`LOT-240921-A01`、`LOT-240921-B03`、`INS-07`、`ETCH-03`。
 
